@@ -2,7 +2,7 @@ from scripts.parser.jobParser import JobParser
 
 GLOBAL = 10
 GLOBAL_2 = 'this'
-CONFIG_PATH = 'C:\\Users\Dan Wortmann\Desktop\example.xml'
+CONFIG_PATH = 'C:\\Users\Dan Wortmann\Documents\Python Projects\Python-Playground\example.xml'
 
 def print_info(element):
     print('Tag: ' + element.tag)

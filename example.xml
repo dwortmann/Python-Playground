@@ -1,0 +1,28 @@
+<EpicNightlyJobs>
+    <Job type="SVN" name="optional 1">
+        <path value="this is a file path" />
+        <update parameters="anything else" />
+    </Job>
+    <Job type="SVN" name="optional 2">
+        <path value="this is a file path" />
+        <update parameters="anything else" />
+    </Job>
+    <Job type="SVN" name="optional 3">
+        <path value="this is a file path" />
+        <update parameters="anything else" />
+    </Job>
+    <Job type="SVN" name="optional 4">
+        <path value="this is a file path" />
+        <update parameters="anything else" />
+    </Job>
+    <Job type="BadType" name="optional 4">
+        <version value="tag(1,2,&quot;abd&quot;)" />
+        <dlg value="T23048" />
+        <product value="Hyperspace" />
+    </Job>
+    <Job type="Error" name="optional 4">
+        <version value="tag(1,2,&quot;abd&quot;)" />
+        <dlg value="T23048" />
+        <product value="Hyperspace" />
+    </Job>
+</EpicNightlyJobs>
