@@ -3,10 +3,7 @@ import xml.etree.ElementTree as ET
 from enum import Enum
 
 #TODO - maybe there's a better way to import these like from jobs import * ?
-from epic.parser.jobs.svnJob import SVNJob
-from epic.parser.jobs.hswebJob import HSWebJob
-from epic.parser.jobs.wilmaJob import WilmaJob
-from epic.parser.jobs.cacheJob import CacheJob
+from scripts.parser.jobs.svnJob import SVNJob
 
 class Type(Enum):
         Error = 0
@@ -78,12 +75,6 @@ class JobParser:
         """
         if type == Type.SVN:
             return SVNJob(name, actions)
-        if type == Type.HSWeb:
-            return HSWebJob(name, actions)
-        if type == Type.Wilma:
-            return WilmaJob(name, actions)
-        if type == Type.Cache:
-            return CacheJob(name, actions)
 
         raise BadJobTypeException('Invalid job type: {}'.format(str(type))) #TODO: Better error handling? Throw exception?
 

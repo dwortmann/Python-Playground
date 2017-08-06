@@ -1,4 +1,4 @@
-from epic.parser.jobParser import JobParser
+from scripts.parser.jobParser import JobParser
 
 GLOBAL = 10
 GLOBAL_2 = 'this'

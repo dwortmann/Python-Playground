@@ -1,5 +1,5 @@
 from .job import Job
-from epic.svn.commands import SVN
+from scripts.svn.commands import SVN
 
 class SVNJob(Job):
     """Job configuration unique to SVN"""
