@@ -9,11 +9,11 @@ class SVNJob(Job):
         print('SVNJob __init__')
         #Things unique to SVN Jobs
 
-    def update(self):
-        SVN.update()
+    def update(self, path, revision=None):
+        SVN.update(path, revision)
 
-    def checkout(self):
-        SVN.checkout()
+    def checkout(self, path, revision=None):
+        SVN.checkout(path, revision)
 
     def revert(self):
         SVN.revert()
