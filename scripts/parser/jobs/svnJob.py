@@ -10,6 +10,12 @@ class SVNJob(Job):
         print('SVNJob __init__')
         self._parse_additional_attributes(job)
         
+    def run(self):
+        """
+        Run job and all it's actions
+        """
+        return
+        
     def _parse_additional_attributes(self, job):
         try:
             working_dir = job.attrib['path']
@@ -17,14 +23,17 @@ class SVNJob(Job):
             #TODO: error handling
             print('Invalid SVNJob attributes')
 
-    def update(self, path, revision=None):
+    def _update(self, path, revision=None):
         SVN.update(path, revision)
 
-    def checkout(self, path, revision=None):
+    def _checkout(self, path, revision=None):
         SVN.checkout(path, revision)
 
-    def revert(self):
+    def _revert(self):
         SVN.revert()
+        
+    def _cleanup(self):
+        SVN.cleanup()
 
 
 

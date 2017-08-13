@@ -91,22 +91,39 @@ class SVN():
         _execute(cmd)
 
     @staticmethod
-    def revert():
+    def revert(path, depth='infinity', recursive=True):
         """
         Revert any local modifications
         
         http://svnbook.red-bean.com/en/1.7/svn.ref.svn.c.revert.html
         """
-        print('SVN Revert')
+        cmd = 'svn revert '
+
+        if recursive:
+            cmd += '--recursive '
+
+        if depth == 'infinity':
+            cmd += '--depth={} '.format(depth)
+        else:
+            print('depth parameter not supported yet')
+
+        cmd += '"{}"'.format(_format_path(path))
+
+        print(cmd)
+        _execute(cmd)
 
     @staticmethod
-    def cleanup():
+    def cleanup(path):
         """
         Recursively clean up working copy
         
         http://svnbook.red-bean.com/en/1.7/svn.ref.svn.c.cleanup.html
         """
-        print('SVN Cleanup')
+        cmd = 'svn cleanup '
+        cmd += '"{}"'.format(_format_path(path))
+        
+        print(cmd)
+        _execute(cmd)
 
     @staticmethod
     def merge():
