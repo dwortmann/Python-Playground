@@ -15,7 +15,6 @@ class Job:
         self.name = name
         self.actions = actions
         self.status = Status.NotStarted
-        print('Job __init__')
 
     def report(self):
         """Return a basic report about the status of the job"""

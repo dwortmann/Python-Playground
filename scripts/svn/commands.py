@@ -1,8 +1,6 @@
 import os
 import subprocess
 
-BASE_DIRECTORY = ''
-
 class InvalidPathException(Exception):
     pass
 
@@ -23,13 +21,15 @@ def _is_valid_path(path):
     """
     path = _format_path(path)
 
-    if os.isdir(path):
+    if os.path.isdir(path) == True:
+        print('what: ' + path)
         return path
     try:
+        print('there')
         os.makedirs(path, exist_ok=True)
     except OSError:
         raise InvalidPathException('Invalid path: ' + path) # Invalid path
-    
+    print('here')
     return path
 
 def _format_path(path):
@@ -37,7 +37,7 @@ def _format_path(path):
     path = path.lstrip('/\\')
     path = path.rstrip('/\\')
 
-    return BASE_DIRECTORY + path
+    return path
 
 def _is_valid_revision(rev):
     """Verify the revision parameter"""
@@ -70,10 +70,17 @@ class SVN():
         cmd = 'svn update --force '
         if _is_valid_revision(rev):
             cmd += '-r {} '.format(_format_revision(rev))
-        cmd += '"{}"'.format(_format_path(path))
+        try:
+            cmd += '"{}"'.format(_is_valid_path(path))
+        except InvalidPathException as e:
+            #print(e) #Log this somehow
+            return False #TODO better error handling
 
         print(cmd)
         _execute(cmd)
+        #TODO Error handling to return 'False' under correct circumstances
+
+        return True
 
     @staticmethod
     def checkout(path, rev=None):
@@ -89,6 +96,9 @@ class SVN():
 
         print(cmd)
         _execute(cmd)
+        #TODO Error handling to return 'False' under correct circumstances
+
+        return True
 
     @staticmethod
     def revert(path, depth='infinity', recursive=True):
@@ -111,6 +121,9 @@ class SVN():
 
         print(cmd)
         _execute(cmd)
+        #TODO Error handling to return 'False' under correct circumstances
+
+        return True
 
     @staticmethod
     def cleanup(path):
@@ -124,6 +137,9 @@ class SVN():
         
         print(cmd)
         _execute(cmd)
+        #TODO Error handling to return 'False' under correct circumstances
+
+        return True
 
     @staticmethod
     def merge():

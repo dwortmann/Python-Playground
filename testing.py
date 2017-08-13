@@ -26,11 +26,6 @@ p = JobParser(CONFIG_PATH)
 
 for job in p.jobs:
     #print(job)
-    print(job.report())
-    if job.name == 'optional 1':
-        svn_update_tests(job)
-        svn_checkout_tests(job)
-        #job.revert()
-        #job.cleanup()
-    
-#print(len(p.jobs))
+    #print(job.report())
+    print('Job: ' + job.name)
+    job.run()
