@@ -19,7 +19,7 @@ class Job:
 
     def report(self):
         """Return a basic report about the status of the job"""
-        return 'Basic Job report' + str(self.status)
+        return 'Basic Job report ' + str(self.status)
         
     def __str__(self):
         """String format"""

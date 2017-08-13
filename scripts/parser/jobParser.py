@@ -54,11 +54,11 @@ class JobParser:
 
             #Build appropriate job
             try:
-                self.jobs.append(self._create_job(type,name,actions))
+                self.jobs.append(self._create_job(type,job,name,actions))
             except BadJobTypeException:
                 continue #TODO better error handling and logging
 
-    def _create_job(self, type, name, actions):
+    def _create_job(self, type, job, name, actions):
         """Create job of supported type
 
         Args:
@@ -74,7 +74,7 @@ class JobParser:
 
         """
         if type == Type.SVN:
-            return SVNJob(name, actions)
+            return SVNJob(job, name, actions)
 
         raise BadJobTypeException('Invalid job type: {}'.format(str(type))) #TODO: Better error handling? Throw exception?
 
