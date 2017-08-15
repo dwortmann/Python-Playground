@@ -26,6 +26,5 @@ p = JobParser(CONFIG_PATH)
 
 for job in p.jobs:
     #print(job)
-    #print(job.report())
-    print('Job: ' + job.name)
     job.run()
+    job.log()

@@ -1,4 +1,5 @@
 from .job import Job, Status
+from datetime import datetime
 from scripts.svn.commands import SVN
 
 BASE_DIRECTORY = ''
@@ -27,6 +28,7 @@ class SVNJob(Job):
         :param log: Whether to log job and actions in nightly log
         :param email: Whether to send log email for job.
         """
+        self.start_time = datetime.now()
         self.status = Status.InProgress
 
         for action in self.actions:
@@ -35,15 +37,27 @@ class SVNJob(Job):
             # Execute actions
             try:
                 status = self.COMMANDS[command](**params)
-                if status:
-                    self.status = Status.Complete
-                else:
+                if not status:
                     self.status = Status.Failed
+                    print('Action failed to execute')
             except TypeError:
                 self.status = Status.Failed
                 print('Invalid job or parameter') #TODO, better error handling
 
+        if self.status != Status.Failed:
+            self.status = Status.Complete
+
         # Do report/email stuff after this
+        if self.status != Status.Failed:
+            self.status = Status.Complete
+
+        self.end_time = datetime.now()
+
+    def report(self):
+        """Return a basic report about SVN job status"""
+        report = super().report()
+        report += '\nSVNJob details: TODO'
+        return report
 
     def _parse_additional_attributes(self, job):
         try:

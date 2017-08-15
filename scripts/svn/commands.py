@@ -13,7 +13,7 @@ def _execute(cmd):
 
     return output, stderr
     
-def _is_valid_path(path):
+def _is_valid_path(path, create_if_needed=False):
     """
     Verify the path either exists or can be created.
     
@@ -21,15 +21,17 @@ def _is_valid_path(path):
     """
     path = _format_path(path)
 
-    if os.path.isdir(path) == True:
-        print('what: ' + path)
+    if os.path.isdir(path):
         return path
+    elif not create_if_needed:
+        raise InvalidPathException('Path does not exist: ' + path)
+
     try:
         print('there')
         os.makedirs(path, exist_ok=True)
     except OSError:
         raise InvalidPathException('Invalid path: ' + path) # Invalid path
-    print('here')
+
     return path
 
 def _format_path(path):
@@ -45,12 +47,10 @@ def _is_valid_revision(rev):
     #TODO: revisions can be a range - probably not too useful atm
     if not rev:
         return False
-    if isinstance(rev, int):
-        if rev > 0:
-            return True
-    if isinstance(rev, str):
-        if rev.isdigit():
-            return True
+    if isinstance(rev, int) and rev > 0:
+        return True
+    if isinstance(rev, str) and rev.isdigit():
+        return True
 
     return False
 
@@ -92,7 +92,7 @@ class SVN():
         cmd = 'svn checkout --force '
         if _is_valid_revision(rev):
             cmd += '-r {} '.format(_format_revision(rev))
-        cmd += '"{}"'.format(_format_path(path))
+        cmd += '"{}"'.format(_format_path(path, True))
 
         print(cmd)
         _execute(cmd)
@@ -122,6 +122,7 @@ class SVN():
         print(cmd)
         _execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
+        #TODO Implement robust revert in case of the 'cannot rever without reverting children bullshit'
 
         return True
 
