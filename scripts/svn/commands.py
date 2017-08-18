@@ -67,7 +67,7 @@ class SVN():
         
         http://svnbook.red-bean.com/en/1.7/svn.ref.svn.c.update.html
         """
-        cmd = 'svn update --force '
+        cmd = 'svn update --force --accept tc '
         if _is_valid_revision(rev):
             cmd += '-r {} '.format(_format_revision(rev))
         try:
