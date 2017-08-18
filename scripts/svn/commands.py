@@ -4,6 +4,9 @@ import subprocess
 class InvalidPathException(Exception):
     pass
 
+VALID_ACCEPT_FLAGS = [
+    'p','e','l','mf','tf','mc','tc','tf'
+]
 
 def _execute(cmd):
     p = subprocess.Popen(cmd, shell=True, \
@@ -61,13 +64,18 @@ class SVN():
     """SVN commands object"""
 
     @staticmethod
-    def update(path, rev=None):
+    def update(path, rev=None, accept='p'):
         """
         Update working copy.
         
         http://svnbook.red-bean.com/en/1.7/svn.ref.svn.c.update.html
         """
-        cmd = 'svn update --force --accept tc '
+        cmd = 'svn update --force '
+        if accept not in VALID_ACCEPT_FLAGS:
+            cmd += '--accept p ' #So script doesn't stall
+        else:
+            cmd += '--accept {} '.format(accept)
+
         if _is_valid_revision(rev):
             cmd += '-r {} '.format(_format_revision(rev))
         try:
