@@ -1,4 +1,5 @@
 import os
+import re
 import subprocess
 
 class InvalidPathException(Exception):
@@ -11,11 +12,23 @@ VALID_ACCEPT_FLAGS = [
 def _execute(cmd):
     p = subprocess.Popen(cmd, shell=True, \
             stdout=subprocess.PIPE, \
-            stderr=subprocess.STDOUT)
-    output, stderr = p.communicate()
+            stdin=subprocess.PIPE, \
+            stderr=subprocess.STDOUT, \
+            bufsize=1, universal_newlines=True)
 
-    return output, stderr
-    
+    while p.poll() is None:
+        line = p.stdout.readline()
+        try:
+            #TODO: implement a timeout for each command in case of error - 5 mins or so should be good
+            if line.startswith('All done'):
+                p.communicate('\r\n')
+            if line.startswith('Press any key to continue'):
+                # Keep as backup
+                p.communicate('\r\n')
+            #print(line, end='') #TODO - consider ways to log this/debug mode?
+        except TypeError:
+            pass
+
 def _is_valid_path(path, create_if_needed=False):
     """
     Verify the path either exists or can be created.
@@ -30,7 +43,6 @@ def _is_valid_path(path, create_if_needed=False):
         raise InvalidPathException('Path does not exist: ' + path)
 
     try:
-        print('there')
         os.makedirs(path, exist_ok=True)
     except OSError:
         raise InvalidPathException('Invalid path: ' + path) # Invalid path
@@ -60,8 +72,31 @@ def _is_valid_revision(rev):
 def _format_revision(rev):
     return str(rev).lstrip('0')
 
+def _delete_non_versioned_files(path, recursive=True):
+    """
+    Delete unversioned files in a directory tree.
+    """
+    POWERSHELL = "svn status --no-ignore | Select-String '^[?I]' | ForEach-Object { [Regex]::Match($_.Line, '^[^\s]*\s+(.*)$').Groups[1].Value } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
+
+    # Write file to directory
+    file_name = '{}\cleanup_bot.ps1'.format(path)
+    if os.path.exists(file_name):
+        os.remove(file_name)
+
+    f = open(file_name, 'w')
+    f.write(POWERSHELL)
+    f.close()
+
+    # Run from powershell
+    command = 'cd "{}" && powershell cleanup_bot.ps1'.format(path)
+    print(command)
+    _execute(command)
+
+
 class SVN():
-    """SVN commands object"""
+    """
+    SVN commands object
+    """
 
     @staticmethod
     def update(path, rev=None, accept='p'):
@@ -135,7 +170,7 @@ class SVN():
         return True
 
     @staticmethod
-    def cleanup(path):
+    def cleanup(path, delete_non_versioned=True):
         """
         Recursively clean up working copy
         
@@ -145,7 +180,11 @@ class SVN():
         cmd += '"{}"'.format(_format_path(path))
         
         print(cmd)
-        _execute(cmd)
+        #_execute(cmd)
+        
+        if delete_non_versioned:
+            print('Cleaning up unversioned files for: ' + path)
+            _delete_non_versioned_files(path)
         #TODO Error handling to return 'False' under correct circumstances
 
         return True
