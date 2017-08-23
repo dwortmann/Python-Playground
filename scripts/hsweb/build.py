@@ -1,8 +1,9 @@
 import os
+import time
 import subprocess
 
 BASE_PATH = 'C:\EpicSource\{}\{}\HSWeb' #Requires major version + Directory
-BUILD_COMMAND = 'C:\Epic\Tools\BuildSolution\build-debug-solution.cmd "{}"'
+BUILD_COMMAND = 'C:\Epic\Tools\BuildSolution\\build-debug-solution.cmd "{}"'
 
 VERSIONS = ['8.4','8.3','8.2']
 
@@ -15,10 +16,22 @@ class InvalidPathException(Exception):
 def _execute(cmd):
     p = subprocess.Popen(cmd, shell=True, \
             stdout=subprocess.PIPE, \
-            stderr=subprocess.STDOUT)
-    output, stderr = p.communicate()
+            stdin=subprocess.PIPE, \
+            stderr=subprocess.STDOUT, \
+            bufsize=1, universal_newlines=True)
 
-    return output, stderr
+    while p.poll() is None:
+        line = p.stdout.readline()
+        try:
+            #TODO: implement a timeout for each command in case of error - 5 mins or so should be good
+            if line.startswith('All done'):
+                p.communicate('\r\n')
+            if line.startswith('Press any key to continue'):
+                # Keep as backup
+                p.communicate('\r\n')
+            #print(line, end='') #TODO - consider ways to log this/debug mode?
+        except TypeError:
+            pass
 
 def _is_valid_path(path, create_if_needed=False):
     """
@@ -129,11 +142,9 @@ class HSWebBuild():
 
     def build(self, *args):
         #Build all solutions passed in
-        print('args: ' + args)
         #TODO - is there a smarter way to just build all solutions with 1 command? SolutionsToBuild.sln?
 
         for solution in args:
-            print('One ' + solution)
             #TODO - search Apps and Fnd recursively here for the solution
             try:
                 path = self._valid_solution_path(solution)
@@ -144,4 +155,4 @@ class HSWebBuild():
 
             command = BUILD_COMMAND.format(path)
             print(command)
-            #_execute(command)
+            _execute(command)
