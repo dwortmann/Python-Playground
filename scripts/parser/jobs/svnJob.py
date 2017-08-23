@@ -44,9 +44,6 @@ class SVNJob(Job):
                 self.status = Status.Failed
                 print('Invalid job or parameter') #TODO, better error handling
 
-        if self.status != Status.Failed:
-            self.status = Status.Complete
-
         # Do report/email stuff after this
         if self.status != Status.Failed:
             self.status = Status.Complete
@@ -76,13 +73,3 @@ class SVNJob(Job):
 
     def _cleanup(self):
         return SVN.cleanup(self.working_dir)
-
-
-
-
-
-
-
-
-
-

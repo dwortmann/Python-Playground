@@ -44,7 +44,7 @@ class HSWebBuild():
         self.version = _is_valid_version(ver)
         self.path = BASE_PATH.format(self.version, branch)
         if not _is_valid_path(self.path):
-            raise InvalidPathException('Invalid path: ' + self.path)
+            pass#raise InvalidPathException('Invalid path: ' + self.path)
 
     def clean(self):
         exe_path = self.path + '\BuildScripts'
@@ -129,13 +129,17 @@ class HSWebBuild():
 
     def build(self, *args):
         #Build all solutions passed in
+        print('args: ' + args)
         #TODO - is there a smarter way to just build all solutions with 1 command? SolutionsToBuild.sln?
 
         for solution in args:
+            print('One ' + solution)
             #TODO - search Apps and Fnd recursively here for the solution
             try:
                 path = self._valid_solution_path(solution)
             except InvalidPathException:
+                continue
+            except FileNotFoundError:
                 continue
 
             command = BUILD_COMMAND.format(path)

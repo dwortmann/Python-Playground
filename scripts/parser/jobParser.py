@@ -4,6 +4,7 @@ from enum import Enum
 
 #TODO - maybe there's a better way to import these like from jobs import * ?
 from scripts.parser.jobs.svnJob import SVNJob
+from scripts.parser.jobs.buildJob import HSWebBuildJob
 
 class Type(Enum):
         Error = 0
@@ -75,6 +76,8 @@ class JobParser:
         """
         if type == Type.SVN:
             return SVNJob(job, name, actions)
+        if type == Type.HSWeb:
+            return HSWebBuildJob(job, name, actions)
 
         raise BadJobTypeException('Invalid job type: {}'.format(str(type))) #TODO: Better error handling? Throw exception?
 
