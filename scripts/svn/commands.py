@@ -22,10 +22,12 @@ def _execute(cmd):
             #TODO: implement a timeout for each command in case of error - 5 mins or so should be good
             if line.startswith('All done'):
                 p.communicate('\r\n')
+            if line.startswith('Errors in build'):
+                p.communicate('\r\n')
             if line.startswith('Press any key to continue'):
                 # Keep as backup
                 p.communicate('\r\n')
-            #print(line, end='') #TODO - consider ways to log this/debug mode?
+            print(line, end='') #TODO - consider ways to log this/debug mode?
         except TypeError:
             pass
 
@@ -75,6 +77,8 @@ def _format_revision(rev):
 def _delete_non_versioned_files(path, recursive=True):
     """
     Delete unversioned files in a directory tree.
+    
+    Absolete as of svn 1.9.5 where svn cleanup has a command for this
     """
     POWERSHELL = "svn status --no-ignore | Select-String '^[?I]' | ForEach-Object { [Regex]::Match($_.Line, '^[^\s]*\s+(.*)$').Groups[1].Value } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
 
@@ -170,23 +174,22 @@ class SVN():
         return True
 
     @staticmethod
-    def cleanup(path, delete_non_versioned=True):
+    def cleanup(path, remove_unversioned=True):
         """
         Recursively clean up working copy
         
         http://svnbook.red-bean.com/en/1.7/svn.ref.svn.c.cleanup.html
         """
         cmd = 'svn cleanup '
+
+        if remove_unversioned:
+            cmd += '--remove-unversioned '
+
         cmd += '"{}"'.format(_format_path(path))
-        
+
         print(cmd)
         #_execute(cmd)
-        
-        if delete_non_versioned:
-            print('Cleaning up unversioned files for: ' + path)
-            _delete_non_versioned_files(path)
         #TODO Error handling to return 'False' under correct circumstances
-
         return True
 
     @staticmethod
