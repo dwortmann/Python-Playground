@@ -14,12 +14,16 @@ class InvalidPathException(Exception):
     pass
 
 def _execute(cmd):
+    if __debug__:
+        print(cmd)
+        return
+
     p = subprocess.Popen(cmd, shell=True, \
             stdout=subprocess.PIPE, \
             stdin=subprocess.PIPE, \
             stderr=subprocess.STDOUT, \
             bufsize=1, universal_newlines=True)
-
+    
     while p.poll() is None:
         line = p.stdout.readline()
         try:
@@ -66,7 +70,6 @@ class HSWebBuild():
         # Change directory (not sure why it doesn't work otherwise...)
         command = 'cd "{}" && {}'.format(exe_path,'clean.cmd')
 
-        print(command)
         _execute(command)
 
     def build_all_clean(self):
@@ -74,7 +77,6 @@ class HSWebBuild():
         # Change directory (not sure why it doesn't work otherwise...)
         command = 'cd "{}" && {}'.format(exe_path,'build-all-CLEAN-debug.cmd')
 
-        print(command)
         _execute(command)
 
     def build_all(self):
@@ -82,7 +84,6 @@ class HSWebBuild():
         # Change directory (not sure why it doesn't work otherwise...)
         command = 'cd "{}" && {}'.format(exe_path,'build-all-Debug.cmd')
 
-        print(command)
         _execute(command)
 
     def build_core(self):
@@ -90,7 +91,6 @@ class HSWebBuild():
         # Change directory (not sure why it doesn't work otherwise...)
         command = 'cd "{}" && {}'.format(exe_path,'build-Core-Debug.cmd')
 
-        print(command)
         _execute(command)
 
     def build_common(self):
@@ -98,7 +98,6 @@ class HSWebBuild():
         # Change directory (not sure why it doesn't work otherwise...)
         command = 'cd "{}" && {}'.format(exe_path,'build-Common-Debug.cmd')
 
-        print(command)
         _execute(command)
 
     def publish(self):
@@ -106,7 +105,6 @@ class HSWebBuild():
         # Change directory (not sure why it doesn't work otherwise...)
         command = 'cd "{}" && {}'.format(exe_path,'publish-LOCALHOST.cmd')
 
-        print(command)
         _execute(command)
 
     def _valid_solution_path(self, solution):
@@ -153,7 +151,6 @@ class HSWebBuild():
                 continue
 
             command = BUILD_COMMAND.format(path)
-            print(command)
             _execute(command)
 
         return True

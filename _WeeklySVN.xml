@@ -1,0 +1,32 @@
+<EpicNightlyJobs>
+    <!-- Stage 1 -->
+    <Job type="SVN" name="2018 Stage 1" path="C:\EpicSource\8.4\App St1\HSWeb">
+        <cleanup/>
+        <revert/>
+        <update accept="tc"/>
+    </Job>
+    <Job type="HSWeb" name="2018 Stage 1" ver="8.4" path="App St1">
+        <clean/>
+        <build solutions="Ambulatory.sln ApplCore.sln Schedule.sln Review.sln" />
+    </Job>
+    <!-- Stage 2 -->
+    <Job type="SVN" name="2018 Stage 2" path="C:\EpicSource\8.4\App St2\HSWeb">
+        <cleanup/>
+        <revert/>
+        <update accept="tc"/>
+    </Job>
+    <Job type="HSWeb" name="2018 Stage 2" ver="8.4" path="App St2">
+        <clean/>
+        <build solutions="Ambulatory.sln ApplCore.sln Schedule.sln Review.sln" />
+    </Job>
+    <!-- Final -->
+    <Job type="SVN" name="2018 Final" path="C:\EpicSource\8.4\App QA\HSWeb">
+        <cleanup/>
+        <revert/>
+        <update accept="tc"/>
+    </Job>
+    <Job type="HSWeb" name="2018 Final" ver="8.4" path="App QA">
+        <clean/>
+        <build solutions="Ambulatory.sln ApplCore.sln Schedule.sln Review.sln" />
+    </Job>
+</EpicNightlyJobs>

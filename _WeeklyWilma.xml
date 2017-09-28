@@ -1,0 +1,11 @@
+<EpicNightlyJobs>
+    <Job type="Wilma" ver="8.4">
+        <update status="130" />
+    </Job>
+    <Job type="Wilma" ver="8.3">
+        <update status="130" />
+    </Job>
+    <Job type="Wilma" ver="8.2">
+        <update status="130" />
+    </Job>
+</EpicNightlyJobs>

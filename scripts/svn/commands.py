@@ -10,12 +10,16 @@ VALID_ACCEPT_FLAGS = [
 ]
 
 def _execute(cmd):
+    if __debug__:
+        print(cmd)
+        return
+
     p = subprocess.Popen(cmd, shell=True, \
             stdout=subprocess.PIPE, \
             stdin=subprocess.PIPE, \
             stderr=subprocess.STDOUT, \
             bufsize=1, universal_newlines=True)
-
+    
     while p.poll() is None:
         line = p.stdout.readline()
         try:
@@ -93,7 +97,6 @@ def _delete_non_versioned_files(path, recursive=True):
 
     # Run from powershell
     command = 'cd "{}" && powershell cleanup_bot.ps1'.format(path)
-    print(command)
     _execute(command)
 
 
@@ -123,7 +126,6 @@ class SVN():
             #print(e) #Log this somehow
             return False #TODO better error handling
 
-        print(cmd)
         _execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
 
@@ -141,7 +143,6 @@ class SVN():
             cmd += '-r {} '.format(_format_revision(rev))
         cmd += '"{}"'.format(_format_path(path, True))
 
-        print(cmd)
         _execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
 
@@ -166,7 +167,6 @@ class SVN():
 
         cmd += '"{}"'.format(_format_path(path))
 
-        print(cmd)
         _execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
         #TODO Implement robust revert in case of the 'cannot rever without reverting children bullshit'
@@ -187,8 +187,7 @@ class SVN():
 
         cmd += '"{}"'.format(_format_path(path))
 
-        print(cmd)
-        #_execute(cmd)
+        _execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
         return True
 

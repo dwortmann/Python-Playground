@@ -1,29 +1,23 @@
 from .job import Job, Status
 from datetime import datetime
-from scripts.hsweb.build import HSWebBuild
+from scripts.wilma.wilma import Wilma
 
 BASE_DIRECTORY = ''
 
-class HSWebBuildJob(Job):
-    """Job configuration unique to HSWeb Builds"""
-    
+class WilmaJob(Job):
+    """Job configuration unique to SVN"""
+
     def __init__(self, job, name, actions):
         super().__init__(name, actions)
-        # Things unique to HSWebBuildJobs
-        self.working_dir = BASE_DIRECTORY
+        #Things unique to SVN Jobs
         self.ver = '8.4'
         self._parse_additional_attributes(job)
-        self.hsweb = HSWebBuild(self.ver, self.working_dir)
+        self.wilma = Wilma(self.ver)
 
         # Not ideal, but does the trick for now
         self.COMMANDS = {
-            'clean' : self.hsweb.clean,
-            'buildAll' : self.hsweb.build_all,
-            'buildAllClean' : self.hsweb.build_all_clean,
-            'buildCore' : self.hsweb.build_core,
-            'buildCommon' : self.hsweb.build_common,
-            'publish' : self.hsweb.publish,
-            'build' : self._build
+            'update' : self.wilma.update,
+            'install' : self.wilma.install
         }
 
     def run(self, log=True, email=True):
@@ -58,21 +52,11 @@ class HSWebBuildJob(Job):
     def report(self):
         """Return a basic report about SVN job status"""
         report = super().report()
-        report += '\nHSWebBuildJob details: TODO'
+        report += '\nWilmaJob details: TODO'
         return report
 
     def _parse_additional_attributes(self, job):
         try:
-            self.working_dir += job.attrib['path']
             self.ver = job.attrib['ver']
         except KeyError:
-            print('Invalid HSWebBuildJob attributes') #TODO better error handling
-    
-    def _build(self, **kwargs):
-        try:
-            solutions = kwargs['solutions']
-        except KeyError:
-            print('Invalid arguments passed to HSWeb build')
-            return False
-
-        return self.hsweb.build(**kwargs)
+            print('Invalid WilmaJob attributes') #TODO better error handling
