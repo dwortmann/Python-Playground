@@ -142,12 +142,9 @@ class HSWebBuild():
 
         return solution_path
 
-    def build(self, *args):
+    def build(self, solutions):
         #Build all solutions passed in
-        #TODO - is there a smarter way to just build all solutions with 1 command? SolutionsToBuild.sln?
-
-        for solution in args:
-            #TODO - search Apps and Fnd recursively here for the solution
+        for solution in solutions.split():
             try:
                 path = self._valid_solution_path(solution)
             except InvalidPathException:
@@ -158,3 +155,5 @@ class HSWebBuild():
             command = BUILD_COMMAND.format(path)
             print(command)
             _execute(command)
+
+        return True

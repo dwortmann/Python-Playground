@@ -183,7 +183,7 @@ class SVN():
         cmd = 'svn cleanup '
 
         if remove_unversioned:
-            cmd += '--remove-unversioned '
+            cmd += '--remove-unversioned --remove-ignored '
 
         cmd += '"{}"'.format(_format_path(path))
 

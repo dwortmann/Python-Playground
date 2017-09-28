@@ -42,8 +42,6 @@ class HSWebBuildJob(Job):
             params = action[1]
             # Execute actions
             try:
-                print(command)
-                print(params)
                 status = self.COMMANDS[command](**params)
                 if not status:
                     self.status = Status.Failed
@@ -65,6 +63,7 @@ class HSWebBuildJob(Job):
         return report
 
     def _parse_additional_attributes(self, job):
+        print(job)
         try:
             self.working_dir += job.attrib['path']
             self.ver = job.attrib['ver']
@@ -73,9 +72,9 @@ class HSWebBuildJob(Job):
     
     def _build(self, **kwargs):
         try:
-            solutions = kwargs['solutions'].split()
+            solutions = kwargs['solutions']
         except KeyError:
             print('Invalid arguments passed to HSWeb build')
             return False
 
-        return self.hsweb.build(solutions)
+        return self.hsweb.build(**kwargs)
