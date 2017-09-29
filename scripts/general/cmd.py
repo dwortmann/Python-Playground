@@ -1,3 +1,4 @@
+import sys
 import subprocess
 
 def execute(cmd):
@@ -8,6 +9,7 @@ def execute(cmd):
     """
     if __debug__:
         print(cmd)
+        print("DEBUG")
         return
 
     p = subprocess.Popen(cmd, shell=True, \

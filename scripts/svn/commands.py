@@ -66,7 +66,7 @@ class SVN():
         cmd = 'svn checkout --force '
         if _is_valid_revision(rev):
             cmd += '-r {} '.format(_format_revision(rev))
-        cmd += '"{}"'.format(_format_path(path, True))
+        cmd += '"{}"'.format(format_path(path, True))
 
         execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
@@ -90,7 +90,7 @@ class SVN():
         else:
             print('depth parameter not supported yet')
 
-        cmd += '"{}"'.format(_format_path(path))
+        cmd += '"{}"'.format(format_path(path))
 
         execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
@@ -110,7 +110,7 @@ class SVN():
         if remove_unversioned:
             cmd += '--remove-unversioned --remove-ignored '
 
-        cmd += '"{}"'.format(_format_path(path))
+        cmd += '"{}"'.format(format_path(path))
 
         execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances

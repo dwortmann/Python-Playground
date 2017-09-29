@@ -1,4 +1,5 @@
 import os
+from scripts.general.cmd import *
 
 class InvalidPathException(Exception):
     pass
@@ -9,7 +10,7 @@ def is_valid_path(path, create_if_needed=False):
 
     :param path: relative path
     """
-    path = _format_path(path)
+    path = format_path(path)
 
     if os.path.isdir(path):
         return path
@@ -23,7 +24,7 @@ def is_valid_path(path, create_if_needed=False):
 
     return path
 
-def _format_path(path):
+def format_path(path):
     # Let's assume people will provide valid paths
     path = path.lstrip('/\\')
     path = path.rstrip('/\\')
@@ -59,6 +60,36 @@ def _find_file_recursive(file, path):
 
     return file_path
 
+REMOVE_DIR_CMD = 'rmdir /S /Q "{}"'
+
+def remove_directory(directories):
+    """
+    Remove any given directories (faster than via GUI)
+    
+    :param directories: List of paths to remove.
+    """
+    for dir in directories:
+        if not is_valid_path(dir):
+            continue
+
+        # Clean up old directory
+        print("Removing: " + dir)
+        command = REMOVE_DIR_CMD.format(dir)
+        #TODO: allow specifying directory names in EpicSource\Ver\ for ease
+        execute(command)
+
+
+
+
+
+
+
+
+
+
+#
+# Future reference for how we can run PowerShell via command line
+#
 #def _delete_non_versioned_files(path, recursive=True):
 #    """
 #    Delete unversioned files in a directory tree.

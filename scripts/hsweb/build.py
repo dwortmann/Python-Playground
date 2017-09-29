@@ -36,12 +36,16 @@ class HSWebBuild():
 
         execute(command)
 
+        return True
+
     def build_all_clean(self):
         exe_path = self.path + '\BuildScripts'
         # Change directory (not sure why it doesn't work otherwise...)
         command = 'cd "{}" && {}'.format(exe_path,'build-all-CLEAN-debug.cmd')
 
         execute(command)
+
+        return True
 
     def build_all(self):
         exe_path = self.path + '\BuildScripts'
@@ -50,12 +54,16 @@ class HSWebBuild():
 
         execute(command)
 
+        return True
+
     def build_core(self):
         exe_path = self.path + '\BuildScripts'
         # Change directory (not sure why it doesn't work otherwise...)
         command = 'cd "{}" && {}'.format(exe_path,'build-Core-Debug.cmd')
 
         execute(command)
+
+        return True
 
     def build_common(self):
         exe_path = self.path + '\BuildScripts'
@@ -64,12 +72,16 @@ class HSWebBuild():
 
         execute(command)
 
+        return True
+
     def publish(self):
         exe_path = self.path + '\BuildScripts'
         # Change directory (not sure why it doesn't work otherwise...)
         command = 'cd "{}" && {}'.format(exe_path,'publish-LOCALHOST.cmd')
 
         execute(command)
+
+        return True
 
     def _valid_solution_path(self, solution):
         path = self.path + '\Solutions'
