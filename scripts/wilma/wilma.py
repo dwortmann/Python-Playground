@@ -1,6 +1,6 @@
 from scripts.general.cmd import *
 
-BASE_COMMAND = '"C:\Program Files (x86)\Epic\\v{}\Wilma\Epic.Release.Wilma.exe" env=TRACKAPPTCP '
+BASE_COMMAND = '"C:\Program Files (x86)\Epic\\v8.2\Wilma\Epic.Release.Wilma.exe" env=TRACKAPPTCP '
 #TODO: Verify if you can select by DLG via command prompt (likely you can)
 #TODO: Verify if you can select timestamp via command prompt
 
@@ -38,7 +38,7 @@ class Wilma():
 
         command += '-v {} -t {} -p {} '.format(stream, status, product)
 
-        execute(command)
+        execute(command, timeout=1200)
 
     def update(self, stream=None, status='130', product="1", logging=True, silent=True):
         """
@@ -46,7 +46,7 @@ class Wilma():
 
         Reference: http://wiki.epic.com/main/Wilma#Running_Wilma_at_the_command_line
         """
-        command = BASE_COMMAND.format(self.version) + '-upd '
+        command = BASE_COMMAND + '-upd '
 
         self._run(command, stream, status, product, logging, silent)
 
@@ -58,7 +58,7 @@ class Wilma():
 
         Reference: http://wiki.epic.com/main/Wilma#Running_Wilma_at_the_command_line
         """
-        command = BASE_COMMAND.format(self.version)
+        command = BASE_COMMAND
 
         self._run(command, stream, status, product, logging, silent)
 
