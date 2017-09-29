@@ -1,6 +1,4 @@
-import os
-import time
-import subprocess
+from scripts.general.cmd import *
 
 BASE_COMMAND = '"C:\Program Files (x86)\Epic\\v{}\Wilma\Epic.Release.Wilma.exe" env=TRACKAPPTCP '
 #TODO: Verify if you can select by DLG via command prompt (likely you can)
@@ -12,35 +10,6 @@ DEFAULT_STREAM = {
     '8.3' : '83',
     '8.2' : '822',
 }
-
-class InvalidBuildCommandException(Exception):
-    pass
-
-def _execute(cmd):
-    if __debug__:
-        print(cmd)
-        return
-
-    p = subprocess.Popen(cmd, shell=True, \
-            stdout=subprocess.PIPE, \
-            stdin=subprocess.PIPE, \
-            stderr=subprocess.STDOUT, \
-            bufsize=1, universal_newlines=True)
-
-    while p.poll() is None:
-        line = p.stdout.readline()
-        try:
-            #TODO: implement a timeout for each command in case of error - 5 mins or so should be good
-            if line.startswith('All done'):
-                p.communicate('\r\n')
-            if line.startswith('Errors in build'):
-                p.communicate('\r\n')
-            if line.startswith('Press any key to continue'):
-                # Keep as backup
-                p.communicate('\r\n')
-            print(line, end='') #TODO - consider ways to log this/debug mode?
-        except TypeError:
-            pass
 
 def _is_valid_version(ver):
     if ver in VERSIONS:
@@ -69,7 +38,7 @@ class Wilma():
 
         command += '-v {} -t {} -p {} '.format(stream, status, product)
 
-        _execute(command)
+        execute(command)
 
     def update(self, stream=None, status='130', product="1", logging=True, silent=True):
         """

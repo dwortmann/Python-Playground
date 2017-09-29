@@ -2,65 +2,12 @@ import os
 import re
 import subprocess
 
-class InvalidPathException(Exception):
-    pass
+from scripts.general.cmd import *
+from scripts.general.explorer import *
 
 VALID_ACCEPT_FLAGS = [
     'p','e','l','mf','tf','mc','tc','tf'
 ]
-
-def _execute(cmd):
-    if __debug__:
-        print(cmd)
-        return
-
-    p = subprocess.Popen(cmd, shell=True, \
-            stdout=subprocess.PIPE, \
-            stdin=subprocess.PIPE, \
-            stderr=subprocess.STDOUT, \
-            bufsize=1, universal_newlines=True)
-    
-    while p.poll() is None:
-        line = p.stdout.readline()
-        try:
-            #TODO: implement a timeout for each command in case of error - 5 mins or so should be good
-            if line.startswith('All done'):
-                p.communicate('\r\n')
-            if line.startswith('Errors in build'):
-                p.communicate('\r\n')
-            if line.startswith('Press any key to continue'):
-                # Keep as backup
-                p.communicate('\r\n')
-            print(line, end='') #TODO - consider ways to log this/debug mode?
-        except TypeError:
-            pass
-
-def _is_valid_path(path, create_if_needed=False):
-    """
-    Verify the path either exists or can be created.
-    
-    :param path: relative path
-    """
-    path = _format_path(path)
-
-    if os.path.isdir(path):
-        return path
-    elif not create_if_needed:
-        raise InvalidPathException('Path does not exist: ' + path)
-
-    try:
-        os.makedirs(path, exist_ok=True)
-    except OSError:
-        raise InvalidPathException('Invalid path: ' + path) # Invalid path
-
-    return path
-
-def _format_path(path):
-    # Let's assume people will provide valid paths
-    path = path.lstrip('/\\')
-    path = path.rstrip('/\\')
-
-    return path
 
 def _is_valid_revision(rev):
     """Verify the revision parameter"""
@@ -77,28 +24,6 @@ def _is_valid_revision(rev):
 
 def _format_revision(rev):
     return str(rev).lstrip('0')
-
-def _delete_non_versioned_files(path, recursive=True):
-    """
-    Delete unversioned files in a directory tree.
-    
-    Absolete as of svn 1.9.5 where svn cleanup has a command for this
-    """
-    POWERSHELL = "svn status --no-ignore | Select-String '^[?I]' | ForEach-Object { [Regex]::Match($_.Line, '^[^\s]*\s+(.*)$').Groups[1].Value } | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue"
-
-    # Write file to directory
-    file_name = '{}\cleanup_bot.ps1'.format(path)
-    if os.path.exists(file_name):
-        os.remove(file_name)
-
-    f = open(file_name, 'w')
-    f.write(POWERSHELL)
-    f.close()
-
-    # Run from powershell
-    command = 'cd "{}" && powershell cleanup_bot.ps1'.format(path)
-    _execute(command)
-
 
 class SVN():
     """
@@ -121,12 +46,12 @@ class SVN():
         if _is_valid_revision(rev):
             cmd += '-r {} '.format(_format_revision(rev))
         try:
-            cmd += '"{}"'.format(_is_valid_path(path))
+            cmd += '"{}"'.format(is_valid_path(path))
         except InvalidPathException as e:
             #print(e) #Log this somehow
             return False #TODO better error handling
 
-        _execute(cmd)
+        execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
 
         return True
@@ -143,7 +68,7 @@ class SVN():
             cmd += '-r {} '.format(_format_revision(rev))
         cmd += '"{}"'.format(_format_path(path, True))
 
-        _execute(cmd)
+        execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
 
         return True
@@ -167,7 +92,7 @@ class SVN():
 
         cmd += '"{}"'.format(_format_path(path))
 
-        _execute(cmd)
+        execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
         #TODO Implement robust revert in case of the 'cannot rever without reverting children bullshit'
 
@@ -187,7 +112,7 @@ class SVN():
 
         cmd += '"{}"'.format(_format_path(path))
 
-        _execute(cmd)
+        execute(cmd)
         #TODO Error handling to return 'False' under correct circumstances
         return True
 
