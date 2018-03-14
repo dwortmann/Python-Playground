@@ -6,7 +6,7 @@ from scripts.general.explorer import *
 BASE_PATH = 'C:\EpicSource\{}\{}\HSWeb' #Requires major version + Directory
 BUILD_COMMAND = 'C:\Epic\Tools\BuildSolution\\build-debug-solution.cmd "{}"'
 
-VERSIONS = ['8.4','8.3','8.2']
+VERSIONS = ['8.5','8.4','8.3','8.2']
 
 class InvalidBuildCommandException(Exception):
     pass
@@ -18,7 +18,7 @@ def _is_valid_version(ver):
     if ver in VERSIONS:
         return ver
     else:
-        return '8.4' #TODO, probably not ideal, but eh
+        return '8.5' #TODO, probably not ideal, but eh - annoying with new versions...
 
 class HSWebBuild():
     """HSWeb build class"""

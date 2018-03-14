@@ -3,7 +3,7 @@ import os
 from enum import Enum
 from datetime import datetime
 
-JOB_LOG_DIRECTORY = ''
+JOB_LOG_DIRECTORY = "C:\Scripts\Python-Playground\\"
 
 class Status(Enum):
         """Track job status"""
