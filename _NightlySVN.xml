@@ -1,4 +1,17 @@
 <EpicNightlyJobs>
+    <!-- Wilma Jobs -->
+    <Job type="Wilma" name="CDE Wilma" ver="8.5">
+        <update status="130" />
+    </Job>
+    <Job type="Wilma" name="2018 SU Wilma" ver="8.4">
+        <update status="130" />
+    </Job>
+    <Job type="Wilma" name="2017 SU Wilma" ver="8.3">
+        <update status="130" />
+    </Job>
+    <Job type="Wilma" name="2015 IU2 Wilma" ver="8.2">
+        <update status="130" />
+    </Job>
     <!-- Stage 1 -->
     <Job type="SVN" name="2018 Stage 1" ver="8.5" path="C:\EpicSource\8.5\App St1\HSWeb">
         <cleanup/>
@@ -28,18 +41,5 @@
     <Job type="HSWeb" name="2018 Final" ver="8.5" path="App QA">
         <clean/>
         <build solutions="Ambulatory.sln ApplCore.sln Schedule.sln Review.sln" />
-    </Job>
-    <!-- Wilma Jobs -->
-    <Job type="Wilma" ver="8.5">
-        <update status="130" />
-    </Job>
-    <Job type="Wilma" ver="8.4">
-        <update status="130" />
-    </Job>
-    <Job type="Wilma" ver="8.3">
-        <update status="130" />
-    </Job>
-    <Job type="Wilma" ver="8.2">
-        <update status="130" />
     </Job>
 </EpicNightlyJobs>

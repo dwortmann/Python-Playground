@@ -1,6 +1,6 @@
 from scripts.general.cmd import *
 
-BASE_COMMAND = '"C:\Program Files (x86)\Epic\\v8.2\Wilma\Epic.Release.Wilma.exe" env=TRACKAPPTCP '
+BASE_COMMAND = '"C:\Program Files (x86)\Epic\\v8.4\Wilma\Epic.Release.Wilma.exe" env=TRACKAPPTCP '
 #TODO: Verify if you can select by DLG via command prompt (likely you can)
 #TODO: Verify if you can select timestamp via command prompt
 
