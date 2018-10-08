@@ -1,12 +1,13 @@
 from scripts.general.cmd import *
 
-BASE_COMMAND = '"C:\Program Files (x86)\Epic\\v8.4\Wilma\Epic.Release.Wilma.exe" env=TRACKAPPTCP '
+BASE_COMMAND = '"C:\Program Files (x86)\Epic\Wilma\Epic.Release.Wilma.exe" env=TRACKAPPTCP '
 #TODO: Verify if you can select by DLG via command prompt (likely you can)
 #TODO: Verify if you can select timestamp via command prompt
 
-VERSIONS = ['8.5','8.4','8.3','8.2']
+VERSIONS = ['8.6','8.5','8.4','8.3','8.2'] #TODO: Update with new versions
 DEFAULT_STREAM = {
-    '8.5' : '2',
+    '8.6' : '2',
+    '8.5' : '850',
     '8.4' : '84',
     '8.3' : '83',
     '8.2' : '822',
@@ -16,7 +17,7 @@ def _is_valid_version(ver):
     if ver in VERSIONS:
         return ver
     else:
-        return '8.5' #TODO, probably not ideal, but eh
+        return '8.6' #TODO, probably not ideal, but eh
 
 class Wilma():
     """Wilma class"""
