@@ -1,11 +1,11 @@
 <EpicNightlyJobs>
-    <Job type="Wilma" ver="8.4">
+    <Job type="Wilma" ver="9.3">
         <install status="130" />
     </Job>
-    <Job type="Wilma" ver="8.3">
+    <Job type="Wilma" ver="9.2">
         <install status="130" />
     </Job>
-    <Job type="Wilma" ver="8.2">
+    <Job type="Wilma" ver="9.1">
         <install status="130" />
     </Job>
 </EpicNightlyJobs>

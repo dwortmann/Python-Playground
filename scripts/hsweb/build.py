@@ -6,7 +6,7 @@ from scripts.general.explorer import *
 BASE_PATH = 'C:\EpicSource\{}\{}\HSWeb' #Requires major version + Directory
 BUILD_COMMAND = 'C:\Epic\Tools\BuildSolution\\build-debug-solution.cmd "{}"'
 
-VERSIONS = ['8.6','8.5','8.4','8.3','8.2'] #TODO - update with new releases
+VERSIONS = ['9.3','9.2','9.1','8.9','8.8','8.7','8.6','8.5','8.4','8.3','8.2'] #TODO - update with new releases
 
 class InvalidBuildCommandException(Exception):
     pass
@@ -18,7 +18,7 @@ def _is_valid_version(ver):
     if ver in VERSIONS:
         return ver
     else:
-        return '8.6' #TODO, probably not ideal, but eh - annoying with new versions...
+        return '9.3' #TODO, probably not ideal, but eh - annoying with new versions...
 
 class HSWebBuild():
     """HSWeb build class"""
@@ -103,7 +103,11 @@ class HSWebBuild():
             except FileNotFoundError:
                 continue
 
+            #TODO - BuildErr file is kept by the previous process - delay? Or do something more robust to wait until availalbe? (could be prone to getting stuck... )
+            if not __debug__:
+                time.sleep(1)
+
             command = BUILD_COMMAND.format(path)
-            execute(command)
+            execute(command, timeout=1200)
 
         return True

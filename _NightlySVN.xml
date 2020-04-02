@@ -1,48 +1,47 @@
 <EpicNightlyJobs>
     <!-- Wilma Jobs -->
-    <Job type="Wilma" name="CDE Wilma" ver="8.6">
+    <Job type="Wilma" name="CDE Wilma" ver="9.2">
         <update status="130" />
     </Job>
-    <Job type="Wilma" name="Aug 2018 Wilma" ver="8.5">
+    <Job type="Wilma" name="Nov 2019 Wilma" ver="9.1">
         <update status="130" />
     </Job>
-    <Job type="Wilma" name="Feb 2018 SU Wilma" ver="8.4">
+    <Job type="Wilma" name="Aug 2019 Wilma" ver="8.9">
         <update status="130" />
     </Job>
-    <Job type="Wilma" name="2017 SU Wilma" ver="8.3">
-        <update status="130" />
-    </Job>
-    <Job type="Wilma" name="2015 IU2 Wilma" ver="8.2">
-        <update status="130" />
-    </Job>
-    <!-- Stage 1 -->
-    <Job type="SVN" name="Current Stage 1" ver="8.6" path="C:\EpicSource\8.6\App St1\HSWeb">
+    <!-- PQA Branches -->
+    <!-- Good solutions 
+      <build solutions="Ambulatory.sln ApplCore.sln AdvanceCarePlanning.sln NurseTriage.sln FollowUp.sln Allergies.sln Orthopaedics.sln Clinical.Common.sln Common.sln Navigator.sln Schedule.sln Review.sln CRM.sln" />
+    -->
+    <!--
+    <Job type="SVN" name="Clinical Call" ver="8.8" path="C:\EpicSource\8.8\DLG-573680\HSWeb">
         <cleanup/>
         <revert/>
         <update accept="tc"/>
     </Job>
-    <Job type="HSWeb" name="Current Stage 1" ver="8.6" path="App St1">
+    <Job type="HSWeb" name="Clinical Call" ver="8.8" path="DLG-573680">
         <clean/>
-        <build solutions="Ambulatory.sln ApplCore.sln Schedule.sln Review.sln" />
+        <build solutions="Ambulatory.sln ApplCore.sln AdvanceCarePlanning.sln NurseTriage.sln CRM.sln Orthopaedics.sln Clinical.Common.sln Common.sln Navigator.sln Schedule.sln Review.sln" />
+    </Job>
+    -->
+    <!-- Stage 1 -->
+    <Job type="SVN" name="Current Stage 1" ver="9.2" path="C:\EpicSource\9.2\App St1\HSWeb">
+        <cleanup/>
+        <revert/>
+        <update accept="tc"/>
+    </Job>
+    <Job type="HSWeb" name="Current Stage 1" ver="9.2" path="App St1">
+        <clean/>
+        <build solutions="Ambulatory.sln ApplCore.sln Schedule.sln Review.sln Common.sln Clinical.Common.sln Navigator.sln" />
     </Job>
     <!-- Stage 2 -->
-    <Job type="SVN" name="Current Stage 2" path="C:\EpicSource\8.6\App St2\HSWeb">
+    <Job type="SVN" name="Current Stage 2" path="C:\EpicSource\9.2\App St2\HSWeb">
         <cleanup/>
         <revert/>
         <update accept="tc"/>
     </Job>
-    <Job type="HSWeb" name="Current Stage 2" ver="8.6" path="App St2">
+    <Job type="HSWeb" name="Current Stage 2" ver="9.2" path="App St2">
         <clean/>
-        <build solutions="Ambulatory.sln ApplCore.sln Schedule.sln Review.sln" />
-    </Job>
-    <!-- Final -->
-    <Job type="SVN" name="Current Final" path="C:\EpicSource\8.6\App QA\HSWeb">
-        <cleanup/>
-        <revert/>
-        <update accept="tc"/>
-    </Job>
-    <Job type="HSWeb" name="Current Final" ver="8.6" path="App QA">
-        <clean/>
-        <build solutions="Ambulatory.sln ApplCore.sln Schedule.sln Review.sln" />
+        <build solutions="Ambulatory.sln ApplCore.sln Schedule.sln Review.sln Common.sln Clinical.Common.sln Navigator.sln" />
     </Job>
 </EpicNightlyJobs>

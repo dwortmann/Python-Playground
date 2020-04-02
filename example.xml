@@ -1,8 +1,18 @@
 <EpicNightlyJobs>
-    <Job type="HSWeb" name="optional 4" path="this is a path/depth 2/depth 4/">
-        <build/>
-        <build solutions="ADT.sln"/>
-        <build solutions="ADT.sln Ambulatory.sln"/>
-        <build solutions="ADT.sln Ambulatory.sln Review.sln"/>
+    <Job type="Wilma" ver="8.4">
+        <update />
+        <update stream="2" status="180" product="1"/>
+        <update stream="2" status="150" product="1" logging="False" silent="False" />
+        <install />
+        <install stream="2" status="180" product="1"/>
+        <install stream="2" status="150" product="1" logging="False" silent="False" />
+    </Job>
+    <Job type="Wilma" ver="8.4">
+        <update />
+        <update stream="2" status="180" product="1"/>
+        <update stream="2" status="150" product="1" logging="False" silent="False" />
+        <install />
+        <install stream="2" status="180" product="1"/>
+        <install stream="2" status="150" product="1" logging="False" silent="False" />
     </Job>
 </EpicNightlyJobs>

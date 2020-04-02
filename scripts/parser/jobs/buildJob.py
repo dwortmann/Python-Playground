@@ -11,7 +11,7 @@ class HSWebBuildJob(Job):
         super().__init__(name, actions)
         # Things unique to HSWebBuildJobs
         self.working_dir = BASE_DIRECTORY
-        self.ver = '8.6' # Default to latest version #TODO - this needs to update with new releases
+        self.ver = '9.3' # Default to latest version #TODO - this needs to update with new releases
         self._parse_additional_attributes(job)
         self.hsweb = HSWebBuild(self.ver, self.working_dir)
 

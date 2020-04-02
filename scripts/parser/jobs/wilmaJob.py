@@ -9,8 +9,8 @@ class WilmaJob(Job):
 
     def __init__(self, job, name, actions):
         super().__init__(name, actions)
-        #Things unique to SVN Jobs
-        self.ver = '8.4'
+        #Things unique to Wilma Jobs
+        self.ver = '8.7' #TODO: Default to latest version - though this is defaulted elsewhere?
         self._parse_additional_attributes(job)
         self.wilma = Wilma(self.ver)
 

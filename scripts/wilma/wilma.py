@@ -4,9 +4,15 @@ BASE_COMMAND = '"C:\Program Files (x86)\Epic\Wilma\Epic.Release.Wilma.exe" env=T
 #TODO: Verify if you can select by DLG via command prompt (likely you can)
 #TODO: Verify if you can select timestamp via command prompt
 
-VERSIONS = ['8.6','8.5','8.4','8.3','8.2'] #TODO: Update with new versions
+VERSIONS = ['9.3','9.2','9.1','8.9','8.8','8.7','8.6','8.5','8.4','8.3','8.2'] #TODO: Update with new versions
 DEFAULT_STREAM = {
-    '8.6' : '2',
+    '9.3' : '2',
+    '9.2' : '92',
+    '9.1' : '91',
+    '8.9' : '89',
+    '8.8' : '88',
+    '8.7' : '87',
+    '8.6' : '86',
     '8.5' : '850',
     '8.4' : '84',
     '8.3' : '83',
@@ -17,7 +23,7 @@ def _is_valid_version(ver):
     if ver in VERSIONS:
         return ver
     else:
-        return '8.6' #TODO, probably not ideal, but eh
+        return '8.9' #TODO, probably not ideal, but eh
 
 class Wilma():
     """Wilma class"""
