@@ -1,42 +1,45 @@
+import os
+from re import sub
+import configparser
+
 from scripts.general.cmd import *
 
 BASE_COMMAND = '"C:\Program Files (x86)\Epic\Wilma\Epic.Release.Wilma.exe" env=TRACKAPPTCP '
 #TODO: Verify if you can select by DLG via command prompt (likely you can)
 #TODO: Verify if you can select timestamp via command prompt
 
-VERSIONS = ['9.3','9.2','9.1','8.9','8.8','8.7','8.6','8.5','8.4','8.3','8.2'] #TODO: Update with new versions
-DEFAULT_STREAM = {
-    '9.3' : '2',
-    '9.2' : '92',
-    '9.1' : '91',
-    '8.9' : '89',
-    '8.8' : '88',
-    '8.7' : '87',
-    '8.6' : '86',
-    '8.5' : '850',
-    '8.4' : '84',
-    '8.3' : '83',
-    '8.2' : '822',
-}
-
 def _is_valid_version(ver):
-    if ver in VERSIONS:
-        return ver
-    else:
-        return '8.9' #TODO, probably not ideal, but eh
+    #TODO - parse for a #.# format and check if it's less than the latest version?
+    return ver
+    
+def _get_stream(ver, latestVersion):
+    # Remove non-numerica characters to get stream.
+    # (Exception 8.2 == 822 and 8.5 = 850) I doubht anyone cares about 8.2 and 8.5 is no longer available
+    if ver == latestVersion:
+        return "2"
+
+    return sub(r'[^0-9]',"",ver)
 
 class Wilma():
     """Wilma class"""
 
     def __init__(self, ver):
-        self.version = _is_valid_version(ver)
+        # Config File
+        self.config = configparser.ConfigParser()
+        self.config.read(os.path.join(os.path.dirname(__file__),"..\config.ini")) # https://stackoverflow.com/questions/13800515/cant-load-relative-config-file-using-configparser-from-sub-directory
+        self.latestVersion = self.config['Shared']['LatestVersion'] # TODO - centralize the API?
+
+        if not ver:
+            self.version = self.latestVersion
+        else:
+            self.version = _is_valid_version(ver)
 
     def _run(self, command, stream, status, product, logging, silent):
         """
         Runs Wilma command line for update/install given run parameters.
         """
         if not stream:
-            stream = DEFAULT_STREAM[self.version]
+            stream = _get_stream(self.version, self.latestVersion)
 
         if logging:
             command += '-l '

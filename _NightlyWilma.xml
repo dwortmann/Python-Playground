@@ -1,0 +1,12 @@
+<EpicNightlyJobs>
+    <!-- Wilma Jobs -->
+    <Job type="Wilma" name="CDE Wilma" ver="9.3">
+        <update status="130" />
+    </Job>
+    <Job type="Wilma" name="Feb 2020 Wilma" ver="9.2">
+        <update status="130" />
+    </Job>
+    <Job type="Wilma" name="Nov 2019 Wilma" ver="9.1">
+        <update status="130" />
+    </Job>
+</EpicNightlyJobs>

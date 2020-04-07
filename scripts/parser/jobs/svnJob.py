@@ -1,8 +1,15 @@
 from .job import Job, Status
 from datetime import datetime
 from scripts.svn.commands import SVN
+from scripts.general.explorer import *
 
-BASE_DIRECTORY = ''
+BASE_DIRECTORY = 'C:\EpicSource'
+
+def _find_DLG_dir(dlg):
+    # TODO - handling for rebraching -2 -3 etc. (or do we use the most recent SVN history?)
+    filename = "DLG-{}".format(dlg)
+
+    return find_file(filename, BASE_DIRECTORY) + '\HSWeb'
 
 class SVNJob(Job):
     """Job configuration unique to SVN"""
@@ -10,7 +17,7 @@ class SVNJob(Job):
     def __init__(self, job, name, actions):
         super().__init__(name, actions)
         #Things unique to SVN Jobs
-        self.working_dir = BASE_DIRECTORY
+        self.working_dir = ""
         self._parse_additional_attributes(job)
 
         # Not ideal, but does the trick for now
@@ -57,10 +64,14 @@ class SVNJob(Job):
         return report
 
     def _parse_additional_attributes(self, job):
-        try:
+        # TODO - allow for DLG only command with default settings DLG="#####" and it finds it in the appropriate directory
+        if "DLG" in job.attrib:
+            dlg = job.attrib['DLG']
+            self.working_dir = _find_DLG_dir(dlg)
+        elif "path" in job.attrib:
             self.working_dir += job.attrib['path']
-        except KeyError:
-            print('Invalid SVNJob attributes') #TODO better error handling
+        else:
+            print('Invalid SVNJob attributes')
 
     def _update(self, **kwargs):
         return SVN.update(self.working_dir, **kwargs)

@@ -1,4 +1,6 @@
+import os
 import time
+import configparser
 
 from scripts.general.cmd import *
 from scripts.general.explorer import *
@@ -6,28 +8,33 @@ from scripts.general.explorer import *
 BASE_PATH = 'C:\EpicSource\{}\{}\HSWeb' #Requires major version + Directory
 BUILD_COMMAND = 'C:\Epic\Tools\BuildSolution\\build-debug-solution.cmd "{}"'
 
-VERSIONS = ['9.3','9.2','9.1','8.9','8.8','8.7','8.6','8.5','8.4','8.3','8.2'] #TODO - update with new releases
-
 class InvalidBuildCommandException(Exception):
     pass
 
-class InvalidPathException(Exception):
-    pass
-
 def _is_valid_version(ver):
-    if ver in VERSIONS:
-        return ver
-    else:
-        return '9.3' #TODO, probably not ideal, but eh - annoying with new versions...
+    #TODO - parse for a #.# format and check if it's less than the latest version?
+    return ver
 
 class HSWebBuild():
     """HSWeb build class"""
 
     def __init__(self, ver, branch):
-        self.version = _is_valid_version(ver)
+        # Config File
+        self.config = configparser.ConfigParser()
+        self.config.read(os.path.join(os.path.dirname(__file__),"..\config.ini")) # https://stackoverflow.com/questions/13800515/cant-load-relative-config-file-using-configparser-from-sub-directory
+
+        if not ver:
+            self.version = self.config['Shared']['LatestVersion'] # TODO - centralize the API?
+        else:
+            self.version = _is_valid_version(ver)
+
         self.path = BASE_PATH.format(self.version, branch)
-        if not is_valid_path(self.path):
-            pass#raise InvalidPathException('Invalid path: ' + self.path)
+
+        try:
+            is_valid_path(self.path)
+        except InvalidPathException:
+            print("***ERROR*** HSWebBuild Invalid Path " + self.path)
+            # TODO - invalidated the job as well - in buildJob.py?
 
     def clean(self):
         exe_path = self.path + '\BuildScripts'
@@ -99,11 +106,12 @@ class HSWebBuild():
             try:
                 path = self._valid_solution_path(solution)
             except InvalidPathException:
+                print("***ERROR*** HSWebBuild Invalid Solution Path: " + solution)
                 continue
             except FileNotFoundError:
                 continue
 
-            #TODO - BuildErr file is kept by the previous process - delay? Or do something more robust to wait until availalbe? (could be prone to getting stuck... )
+            #BuildErr file is kept by the previous process - delay? (good enough)
             if not __debug__:
                 time.sleep(1)
 

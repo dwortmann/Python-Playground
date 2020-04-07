@@ -11,7 +11,7 @@ class HSWebBuildJob(Job):
         super().__init__(name, actions)
         # Things unique to HSWebBuildJobs
         self.working_dir = BASE_DIRECTORY
-        self.ver = '9.3' # Default to latest version #TODO - this needs to update with new releases
+        self.ver = None
         self._parse_additional_attributes(job)
         self.hsweb = HSWebBuild(self.ver, self.working_dir)
 
@@ -56,18 +56,23 @@ class HSWebBuildJob(Job):
         self.end_time = datetime.now()
 
     def report(self):
-        """Return a basic report about SVN job status"""
+        """Return a basic report about HSWeb job status"""
         report = super().report()
         report += '\nHSWebBuildJob details: TODO'
         return report
 
     def _parse_additional_attributes(self, job):
-        try:
-            self.working_dir += job.attrib['path']
+        if 'DLG' in job.attrib:
+            self.working_dir += ("DLG-" + job.attrib['DLG'])
+        elif 'path' in job.attrib:
+            self.working_dir = job.attrib['path'] #TODO: "path" is probably not the right name here...
+
+
+        if 'ver' in job.attrib:
             self.ver = job.attrib['ver']
-        except KeyError:
-            print('Invalid HSWebBuildJob attributes') #TODO better error handling
-    
+
+        #print('Invalid HSWebBuildJob attributes') #TODO better error handling
+
     def _build(self, **kwargs):
         try:
             solutions = kwargs['solutions']

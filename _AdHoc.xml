@@ -1,42 +1,20 @@
+    <!-- Good solutions 
+      <build solutions="Ambulatory.sln ApplCore.sln AdvanceCarePlanning.sln NurseTriage.sln FollowUp.sln Allergies.sln Orthopaedics.sln Clinical.Common.sln Common.sln Navigator.sln Schedule.sln Review.sln CRM.sln" />
+    -->
 <EpicNightlyJobs>
     <!-- Wilma Jobs -->
 
     <!-- PQA Branches -->
-    <Job type="SVN" name="Current Stage 1" ver="9.3" path="C:\EpicSource\9.3\App St1\HSWeb">
+    <Job type="SVN" DLG="676845">
         <cleanup/>
         <revert/>
         <update accept="tc"/>
     </Job>
-    <Job type="HSWeb" name="Current Stage 1" ver="9.3" path="App St1">
+    <Job type="HSWeb" DLG="676845">
         <clean/>
-        <build solutions="ApplCore.sln Common.sln Clinical.Common.sln Navigator.sln Ambulatory.sln Schedule.sln Review.sln " />
+        <build solutions="AdvanceCarePlanning.sln ApplCore.sln Clinical.Common.sln Common.sln Navigator.sln" />
     </Job>
-    <!-- 
-    <Job type="SVN" name="Clinical Call" ver="9.3" path="C:\EpicSource\9.3\DLG-676845\HSWeb">
-        <cleanup/>
-        <revert/>
-        <update accept="tc"/>
-    </Job>
-    <Job type="HSWeb" name="Clinical Call" ver="9.3" path="DLG-676845">
-        <clean/>
-        <build solutions="Ambulatory.sln ApplCore.sln AdvanceCarePlanning.sln NurseTriage.sln CRM.sln Orthopaedics.sln Clinical.Common.sln Common.sln Navigator.sln Schedule.sln Review.sln" />
-    </Job>
-    -->
 
-    <!-- Good solutions 
-      <build solutions="Ambulatory.sln ApplCore.sln AdvanceCarePlanning.sln NurseTriage.sln FollowUp.sln Allergies.sln Orthopaedics.sln Clinical.Common.sln Common.sln Navigator.sln Schedule.sln Review.sln CRM.sln" />
-    -->
-    <!--
-    <Job type="SVN" name="Clinical Call" ver="8.8" path="C:\EpicSource\8.8\DLG-573680\HSWeb">
-        <cleanup/>
-        <revert/>
-        <update accept="tc"/>
-    </Job>
-    <Job type="HSWeb" name="Clinical Call" ver="8.8" path="DLG-573680">
-        <clean/>
-        <build solutions="Ambulatory.sln ApplCore.sln AdvanceCarePlanning.sln NurseTriage.sln CRM.sln Orthopaedics.sln Clinical.Common.sln Common.sln Navigator.sln Schedule.sln Review.sln" />
-    </Job>
-    -->
     <!-- Stage 1 -->
 
     <!-- Stage 2 -->
